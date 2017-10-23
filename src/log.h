@@ -9,7 +9,7 @@
 #define	LOG_H_
 
 
-void log(int a);
+void log(int);
 void log(const char*);
 void log(const char*, int);
 void log(const char*, const char*, int);

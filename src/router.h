@@ -1,11 +1,12 @@
 /*
- * info.h
+ * router.h
  *
  *  Created on: Oct 23, 2017
  *      Author: windroid
  */
-#ifndef INFO_H_
-#define INFO_H_
+
+#ifndef ROUTER_H_
+#define ROUTER_H_
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -17,12 +18,15 @@
 #include <string.h>
 #include <errno.h>
 #include "log.h"
-#include "router.h"
 
-#define PORT 9762
+#define HEADLEN 8
 
-int socket_init();
-void socket_wait();
+void r_thread(int*);
+
+struct mhead{
+	int title;
+	int num;
+};
 
 
-#endif /* INFO_H_ */
+#endif /* ROUTER_H_ */
