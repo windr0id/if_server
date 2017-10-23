@@ -1,5 +1,12 @@
-#ifndef M_LOGH
-#define	M_LOGH
+/*
+ * log.h
+ *
+ *  Created on: Oct 22, 2017
+ *      Author: windroid
+ */
+
+#ifndef LOG_H_
+#define	LOG_H_
 
 
 void log(int a);

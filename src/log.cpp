@@ -20,9 +20,9 @@ void log(const char* s){
 }
 
 void log(const char* s, int code){
-	cout<<s<<"-"<<code<<endl;
+	cout<<s<<" "<<code<<endl;
 }
 
 void log(const char* s0,const char* s1, int code){
-	cout<<s0<<"-"<<s1<<"-"<<code<<endl;
+	cout<<s0<<" "<<s1<<" "<<code<<endl;
 }

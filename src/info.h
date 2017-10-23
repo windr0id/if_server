@@ -9,7 +9,6 @@
 #define INFO_H_
 
 int init();
-
-
+void wait();
 
 #endif /* INFO_H_ */
