@@ -17,7 +17,10 @@
 #include <netinet/in.h>
 #include <string.h>
 #include <errno.h>
+
 #include "log.h"
+#include "message.h"
+#include "tools.h"
 
 #define BUFF_LEN	4096
 #define MAX_DATA_NUM 24

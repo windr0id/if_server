@@ -18,7 +18,9 @@ void log(int a){
 void log(const char* s){
 	cout<<s<<endl;
 }
-
+void log(const char* s0, const char* s1){
+	cout<<s0<<" "<<s1<<endl;
+}
 void log(const char* s, int code){
 	cout<<s<<" "<<code<<endl;
 }

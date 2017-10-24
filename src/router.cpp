@@ -6,8 +6,10 @@
  */
 #include "router.h"
 
-//路由
-void route(int t){
+/**
+ * 路由
+ */
+void m_route(int client_fd, int t, int num, char* (pdata)[], int datalen[]){
 	if(t < 10){
 		//nothing to do
 	}else if(t <20){
@@ -15,6 +17,7 @@ void route(int t){
 	}else if(t <30){
 		//用户登录&&退出
 	}else if(t <40){
+		m_do(client_fd, t, num, pdata, datalen);
 		//消息
 	}else if(t <50){
 		//查询在线用户
@@ -22,22 +25,7 @@ void route(int t){
 		//文件传输
 	}
 }
-/**
- * int32与bytes相互转化
- */
-void IntToByteArray(int n, char* b) {
-        b[0] =  (n & 0xff);
-        b[1] =  (n >> 8 & 0xff);
-        b[2] =  (n >> 16 & 0xff);
-        b[3] =  (n >> 24 & 0xff);
-        return;
-}
-int ByteArrayToInt(char* b) {
-         return (int) ((((b[3] & 0xff) << 24)
-                    | ((b[2] & 0xff) << 16)
-                    | ((b[1] & 0xff) << 8)
-					| ((b[0] & 0xff) << 0)));
-}
+
 /**
  * 线程在此阻塞
  * 接收一条报文
@@ -89,12 +77,15 @@ void r_thread(int* arg){
 		char* (pdata)[MAX_DATA_NUM];
 		int datalen[MAX_DATA_NUM];
 		m_parse(buff, &title, &num, pdata, datalen);
+		m_route(client_fd, title, num, pdata, datalen);
+		/*
 		log(title);
 		log(num);
 		log(datalen[0]);
 		log(ByteArrayToInt(pdata[0]));
 		log(datalen[1]);
 		log(ByteArrayToInt(pdata[1]));
+		*/
     }
 }
 
