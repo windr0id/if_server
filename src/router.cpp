@@ -45,7 +45,14 @@ int ByteArrayToInt(char* b) {
 int m_recv(int client_fd, char* buff){
 	int n;
 	while(true){
-		if((n = recv(client_fd, buff, BUFF_LEN, 0)) < 0){
+		if((n = recv(client_fd, buff, BUFF_LEN, 0)) <= 0){
+			if(errno == EINTR){
+				log("socket error: EINTER");
+			}else{
+				log("close socket: ", client_fd);
+				close(client_fd);
+				pthread_exit(0);
+			}
 			sleep(10);
 		}else{
 			return n;
