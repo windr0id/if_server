@@ -38,51 +38,56 @@ int ByteArrayToInt(char* b) {
                     | ((b[1] & 0xff) << 8)
 					| ((b[0] & 0xff) << 0)));
 }
-int getData(){
-	return 0;
-}
 /**
- * recv不保证一次接收完指定的size
- * 封装为mrecv保证接收完指定的size
+ * 线程在此阻塞
+ * 接收一条报文
  */
-int mrecv(int client_fd, char* buff, int size){
-	int n, len = 0;
+int m_recv(int client_fd, char* buff){
+	int n;
 	while(true){
-		if(len >= size){
-			return 0;
-		}
-		if((n = recv(client_fd, buff+len, 4096, 0)) < 0){
-			//sleep(10);
+		if((n = recv(client_fd, buff, BUFF_LEN, 0)) < 0){
+			sleep(10);
 		}else{
-			len += n;
-			log(len);
+			return n;
 		}
 	}
-
+}
+/**
+ * 报文解析
+ */
+int m_parse(char* buff, int* title, int* num, char* (pdata)[], int datalen[]){
+	*title = ByteArrayToInt(buff);
+	*num = ByteArrayToInt(buff+4);
+	char* cursor = buff+8;
+	for(int i=0; i<*num; i++){
+		datalen[i] = ByteArrayToInt(cursor);
+		pdata[i] = cursor+4;
+		cursor += 4+datalen[i];
+	}
 	return 0;
 }
 /**
  * 分配给每个客户端的子线程
  */
 void r_thread(int* arg){
-	char buff[4096];
-	memset(&buff, 9, sizeof(buff));
+	char buff[BUFF_LEN];
+	memset(&buff, 99, sizeof(buff));
 
 	int client_fd = *arg;
-	mhead m;
     while(true){
-		mrecv(client_fd, buff, HEADLEN);
-		for(int i=0; i<8; i++){
-				printf("%d-", buff[i]);
-			}
-		char* pb = buff;
-		int title = ByteArrayToInt(pb);
-		int num = ByteArrayToInt(pb+4);
-		log("Strut mhead:");
+    	int len;//收到的报文长度
+    	len = m_recv(client_fd, buff);
+
+		int title, num;
+		char* (pdata)[MAX_DATA_NUM];
+		int datalen[MAX_DATA_NUM];
+		m_parse(buff, &title, &num, pdata, datalen);
 		log(title);
 		log(num);
-
-
+		log(datalen[0]);
+		log(ByteArrayToInt(pdata[0]));
+		log(datalen[1]);
+		log(ByteArrayToInt(pdata[1]));
     }
 }
 

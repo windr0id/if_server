@@ -19,14 +19,10 @@
 #include <errno.h>
 #include "log.h"
 
-#define HEADLEN 8
+#define BUFF_LEN	4096
+#define MAX_DATA_NUM 24
 
 void r_thread(int*);
-
-struct mhead{
-	int title;
-	int num;
-};
 
 
 #endif /* ROUTER_H_ */
