@@ -49,14 +49,17 @@ void socket_wait(){
             log(server_fd);
             exit(0);
         }
-        log("accept a client", client_fd);
+        log("accept a client. client_fd:", client_fd);
+        //设置client_fd为非阻塞模式
+        int flags = fcntl(client_fd, F_GETFL, 0);
+        fcntl(client_fd, F_SETFL, flags | O_NONBLOCK);
+
         pthread_t pid;
         int ret = pthread_create(&pid, NULL, (void * (*)(void *))r_thread, (void *)&client_fd);
         if(ret != 0){
         	log("pthread create error.");
         }else{
-        	log("pthread create success.", pid);
+        	log("pthread create success. pid:", pid);
         }
     }
-
 }

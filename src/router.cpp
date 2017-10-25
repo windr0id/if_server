@@ -9,7 +9,7 @@
 /**
  * 路由
  */
-void m_route(int client_fd, int t, int num, char* (pdata)[], int datalen[]){
+void r_route(int client_fd, int t, int num, char* (pdata)[], int datalen[]){
 	if(t < 10){
 		//nothing to do
 	}else if(t <20){
@@ -17,8 +17,8 @@ void m_route(int client_fd, int t, int num, char* (pdata)[], int datalen[]){
 	}else if(t <30){
 		//用户登录&&退出
 	}else if(t <40){
-		m_do(client_fd, t, num, pdata, datalen);
 		//消息
+		mes_in(client_fd, t, num, pdata, datalen);
 	}else if(t <50){
 		//查询在线用户
 	}else if(t <60){
@@ -27,21 +27,13 @@ void m_route(int client_fd, int t, int num, char* (pdata)[], int datalen[]){
 }
 
 /**
- * 线程在此阻塞
- * 接收一条报文
+ * 接收报文
  */
-int m_recv(int client_fd, char* buff){
+int r_recv(int client_fd, char* buff){
 	int n;
 	while(true){
-		if((n = recv(client_fd, buff, BUFF_LEN, 0)) <= 0){
-			if(errno == EINTR){
-				log("socket error: EINTER");
-			}else{
-				log("close socket: ", client_fd);
-				close(client_fd);
-				pthread_exit(0);
-			}
-			sleep(10);
+		if((n = recv(client_fd, buff, BUFF_LEN, 0)) < 0){
+			log("r_recv: socket error.", errno);
 		}else{
 			return n;
 		}
@@ -50,7 +42,7 @@ int m_recv(int client_fd, char* buff){
 /**
  * 报文解析
  */
-int m_parse(char* buff, int* title, int* num, char* (pdata)[], int datalen[]){
+int r_parse(char* buff, int* title, int* num, char* (pdata)[], int datalen[]){
 	*title = ByteArrayToInt(buff);
 	*num = ByteArrayToInt(buff+4);
 	char* cursor = buff+8;
@@ -70,27 +62,30 @@ void r_thread(int* arg){
 
 	int client_fd = *arg;
     while(true){
-    	int len;//收到的报文长度
-    	len = m_recv(client_fd, buff);
+    	int len = r_recv(client_fd, buff);
+    	if(len == 0){
+    		//没有收到新报文,检查是否有需要发送的消息
+    		mes_out();
+    	}else{
+    		int title, num;
+			char* (pdata)[MAX_DATA_NUM];
+			int datalen[MAX_DATA_NUM];
+			r_parse(buff, &title, &num, pdata, datalen);
+			r_route(client_fd, title, num, pdata, datalen);
 
-		int title, num;
-		char* (pdata)[MAX_DATA_NUM];
-		int datalen[MAX_DATA_NUM];
-		m_parse(buff, &title, &num, pdata, datalen);
-		for(int i=0; i<30; i++){
+			log("----------------");
+			log(title);
+			log(num);
+			log(datalen[0]);
+			log(ByteArrayToInt(pdata[0]));
+			log(datalen[1]);
+			log(ByteArrayToInt(pdata[1]));
+			log("-----router----");
+    	}
+    	for(int i=0; i<30; i++){
 			printf("%c", buff[i]);
 		}
 		printf("\n");
-		log("----------------");
-		log(title);
-		log(num);
-		log(datalen[0]);
-		log(ByteArrayToInt(pdata[0]));
-		log(datalen[1]);
-		log(ByteArrayToInt(pdata[1]));
-		log("-----router----");
-
-		m_route(client_fd, title, num, pdata, datalen);
 
 
 

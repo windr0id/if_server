@@ -2,16 +2,11 @@
 
 #define PORT 9762
 
-char buff[4096];
-
-
-
 int main(){
 
-	socket_init();
-
+	mes_init();//初始化消息
+	socket_init();//初始化socket
 	socket_wait();
-
 
     return 0;
 }
