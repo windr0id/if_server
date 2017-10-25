@@ -4,8 +4,8 @@
  *  Created on: Oct 23, 2017
  *      Author: windroid
  */
-#ifndef INFO_H_
-#define INFO_H_
+#ifndef MSOCKET_H_
+#define MSOCKET_H_
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -25,4 +25,4 @@ int socket_init();
 void socket_wait();
 
 
-#endif /* INFO_H_ */
+#endif /* MSOCKET_H_ */

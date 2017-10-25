@@ -77,15 +77,23 @@ void r_thread(int* arg){
 		char* (pdata)[MAX_DATA_NUM];
 		int datalen[MAX_DATA_NUM];
 		m_parse(buff, &title, &num, pdata, datalen);
-		m_route(client_fd, title, num, pdata, datalen);
-		/*
+		for(int i=0; i<30; i++){
+			printf("%c", buff[i]);
+		}
+		printf("\n");
+		log("----------------");
 		log(title);
 		log(num);
 		log(datalen[0]);
 		log(ByteArrayToInt(pdata[0]));
 		log(datalen[1]);
 		log(ByteArrayToInt(pdata[1]));
-		*/
+		log("-----router----");
+
+		m_route(client_fd, title, num, pdata, datalen);
+
+
+
     }
 }
 
