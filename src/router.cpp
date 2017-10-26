@@ -33,11 +33,27 @@ int r_recv(int client_fd, char* buff){
 	int n;
 	while(true){
 		if((n = recv(client_fd, buff, BUFF_LEN, 0)) < 0){
+			if(errno == EAGAIN){
+				//未收到报文
+				return 0;
+			}
 			log("r_recv: socket error.", errno);
 		}else{
 			return n;
 		}
 	}
+}
+/**
+ * 发送报文
+ */
+int r_send(int client_fd, char* buff, int len){
+    if(send(client_fd, buff, len, 0)<0){
+        log("router=>r_send: send error.");
+        return -1;
+    }else{
+        log("router=>r_send: send success.");
+    }
+    return 0;
 }
 /**
  * 报文解析
@@ -65,7 +81,7 @@ void r_thread(int* arg){
     	int len = r_recv(client_fd, buff);
     	if(len == 0){
     		//没有收到新报文,检查是否有需要发送的消息
-    		mes_out();
+    		mes_out(client_fd, 976);
     	}else{
     		int title, num;
 			char* (pdata)[MAX_DATA_NUM];
@@ -77,18 +93,11 @@ void r_thread(int* arg){
 			log(title);
 			log(num);
 			log(datalen[0]);
-			log(ByteArrayToInt(pdata[0]));
+			log(pdata[0]);
 			log(datalen[1]);
-			log(ByteArrayToInt(pdata[1]));
+			log(pdata[1]);
 			log("-----router----");
     	}
-    	for(int i=0; i<30; i++){
-			printf("%c", buff[i]);
-		}
-		printf("\n");
-
-
-
     }
 }
 

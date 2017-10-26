@@ -26,6 +26,6 @@
 #define MAX_DATA_NUM 24
 
 void r_thread(int*);
-
+int r_send(int client_fd, char* buff, int len);
 
 #endif /* ROUTER_H_ */
