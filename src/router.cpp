@@ -14,6 +14,7 @@ void r_route(int client_fd, int t, int num, char* (pdata)[], int datalen[]){
 		//nothing to do
 	}else if(t <20){
 		//用户注册
+		sign_up(client_fd, t, num, pdata, datalen);
 	}else if(t <30){
 		//用户登录&&退出
 	}else if(t <40){

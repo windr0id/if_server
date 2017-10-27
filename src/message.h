@@ -14,6 +14,7 @@
 #include "log.h"
 #include "tools.h"
 #include "router.h"
+#include "db.h"
 
 #define MESSAGE_QUE_LEN 100
 

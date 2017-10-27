@@ -20,6 +20,7 @@
 
 #include "log.h"
 #include "message.h"
+#include "sign.h"
 #include "tools.h"
 
 #define BUFF_LEN	4096

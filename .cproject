@@ -47,6 +47,14 @@
                                 								
                                 <option id="gnu.cpp.compiler.exe.debug.option.debugging.level.103697619" name="Debug Level" superClass="gnu.cpp.compiler.exe.debug.option.debugging.level" useByScannerDiscovery="false" value="gnu.cpp.compiler.debugging.level.max" valueType="enumerated"/>
                                 								
+                                <option id="gnu.cpp.compiler.option.include.paths.1097605152" superClass="gnu.cpp.compiler.option.include.paths" useByScannerDiscovery="false" valueType="includePath">
+                                    									
+                                    <listOptionValue builtIn="false" value="/usr/lib/mysql"/>
+                                    									
+                                    <listOptionValue builtIn="false" value="/usr/include/mysql"/>
+                                    								
+                                </option>
+                                								
                                 <inputType id="cdt.managedbuild.tool.gnu.cpp.compiler.input.2112160883" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.input"/>
                                 							
                             </tool>
@@ -65,15 +73,21 @@
                             							
                             <tool id="cdt.managedbuild.tool.gnu.cpp.linker.exe.debug.1920742146" name="GCC C++ Linker" superClass="cdt.managedbuild.tool.gnu.cpp.linker.exe.debug">
                                 								
-                                <option id="gnu.cpp.link.option.libs.1184293290" superClass="gnu.cpp.link.option.libs" useByScannerDiscovery="false" valueType="libs">
+                                <option id="gnu.cpp.link.option.libs.1184293290" name="Libraries (-l)" superClass="gnu.cpp.link.option.libs" useByScannerDiscovery="false" valueType="libs">
                                     									
                                     <listOptionValue builtIn="false" value="pthread"/>
+                                    									
+                                    <listOptionValue builtIn="false" value="mysqlclient"/>
+                                    									
+                                    <listOptionValue builtIn="false" value="m"/>
                                     								
                                 </option>
                                 								
-                                <option id="gnu.cpp.link.option.paths.833372072" superClass="gnu.cpp.link.option.paths" useByScannerDiscovery="false" valueType="libPaths">
+                                <option id="gnu.cpp.link.option.paths.833372072" name="Library search path (-L)" superClass="gnu.cpp.link.option.paths" useByScannerDiscovery="false" valueType="libPaths">
                                     									
                                     <listOptionValue builtIn="false" value="crypto"/>
+                                    									
+                                    <listOptionValue builtIn="false" value="/usr/lib/mysql"/>
                                     								
                                 </option>
                                 								

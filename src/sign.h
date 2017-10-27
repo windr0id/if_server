@@ -10,6 +10,8 @@
 
 
 #include "tools.h"
+#include "router.h"
 
+int sign_up(int client_fd, int t, int num, char* (pdata)[], int datalen[]);
 
 #endif /* SIGN_H_ */
