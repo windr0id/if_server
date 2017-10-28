@@ -61,7 +61,7 @@ int db_check_user(int id, char* password){
 		int count = atoi(row[0]);
 		mysql_free_result(res);
 		if(count == 0){
-			log("db_check_user error.");
+			log("db_check_user: userinfo incorrect.");
 			return -2;
 		}else{
 			return 0;

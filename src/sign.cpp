@@ -41,11 +41,9 @@ int sign_login(int client_fd, int num, char* (pdata)[], int datalen[]){
 	bool success = false;
 	if(password[plen]!='\0'){
 		log("sign_login error: \0 missed.");
-		return -1;
 	}
 	if(db_check_user(id, password) != 0){
 		log("sign_login error: password incorrect.");
-		return -1;
 	}else{
 		success = true;
 	}
@@ -54,8 +52,11 @@ int sign_login(int client_fd, int num, char* (pdata)[], int datalen[]){
 		log("sign_login=>db_get_username error.");
 	}
 	sign_login_back(client_fd, success, username);
-
-	return 0;
+	if(success){
+		return 0;
+	}else{
+		return -2;
+	}
 }
 
 int sign_up_back(int client_fd, bool success, int id){
