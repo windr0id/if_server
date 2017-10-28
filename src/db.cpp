@@ -51,10 +51,21 @@ int db_insert_user(char* username, char* password){
 int db_check_user(int id, char* password){
 	stringstream ss;
 	ss<<"SELECT count(*) FROM user where id = "<<id<<" and password = '"<<password<<"'";
+	MYSQL_RES *res;
+	MYSQL_ROW row;
 	if(db_query(ss.str()) != 0){
 		return -1;
 	}else{
-		return 0;
+		res = mysql_use_result(conn);
+		row = mysql_fetch_row(res);
+		int count = atoi(row[0]);
+		mysql_free_result(res);
+		if(count == 0){
+			log("db_check_user error.");
+			return -2;
+		}else{
+			return 0;
+		}
 	}
 }
 
