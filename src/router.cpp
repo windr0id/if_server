@@ -15,7 +15,7 @@ void r_route(int client_fd, int t, int num, char* (pdata)[], int datalen[]){
 		//用户注册
 		sign_up(client_fd, num, pdata, datalen);
 		break;
-	case 10:
+	case 20:
 		//用户登录&&退出
 		sign_login(client_fd, num, pdata, datalen);
 		break;
@@ -23,10 +23,10 @@ void r_route(int client_fd, int t, int num, char* (pdata)[], int datalen[]){
 		//消息
 		mes_in(client_fd, num, pdata, datalen);
 		break;
-	case 10:
+	case 40:
 		//查询在线用户
 		break;
-	case 10:
+	case 50:
 		//文件传输
 		break;
 	}
@@ -60,20 +60,7 @@ int r_send(int client_fd, char* buff, int len){
     }
     return 0;
 }
-/**
- * 报文解析
- */
-int r_parse(char* buff, int* title, int* num, char* (pdata)[], int datalen[]){
-	*title = ByteArrayToInt(buff);
-	*num = ByteArrayToInt(buff+4);
-	char* cursor = buff+8;
-	for(int i=0; i<*num; i++){
-		datalen[i] = ByteArrayToInt(cursor);
-		pdata[i] = cursor+4;
-		cursor += 4+datalen[i];
-	}
-	return 0;
-}
+
 /**
  * 分配给每个客户端的子线程
  */
@@ -91,7 +78,7 @@ void r_thread(int* arg){
     		int title, num;
 			char* (pdata)[MAX_DATA_NUM];
 			int datalen[MAX_DATA_NUM];
-			r_parse(buff, &title, &num, pdata, datalen);
+			t_parse(buff, &title, &num, pdata, datalen);
 			r_route(client_fd, title, num, pdata, datalen);
 
 			log("----------------");
