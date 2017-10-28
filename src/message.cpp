@@ -88,25 +88,20 @@ int mes_back(int client_fd, int tag, int sourceid, char* mes, int meslen){
 	return 0;
 }
 
-int mes_in(int client_fd, int t, int num, char* (pdata)[], int datalen[]){
-	switch(t)
-	{
-	case 30:
-		//c->s	title:30	num:3	data0:<int>tag	data1:<int>desid[8]	data2:<char>message[max:4000]
-		int tag = ByteArrayToInt(pdata[0]);
-		int destid = ByteArrayToInt(pdata[1]);
-		int meslen = datalen[2];
-		char mes[meslen];
-		ByteArrayToStr(pdata[2], mes, meslen);
-		addMes(tag, 6577, destid, mes, meslen);//添加消息至队列
+int mes_in(int client_fd, int num, char* (pdata)[], int datalen[]){
+	//c->s	title:30	num:3	data0:<int>tag	data1:<int>desid[8]	data2:<char>message[max:4000]
+	int tag = ByteArrayToInt(pdata[0]);
+	int destid = ByteArrayToInt(pdata[1]);
+	int meslen = datalen[2];
+	char mes[meslen];
+	ByteArrayToStr(pdata[2], mes, meslen);
+	addMes(tag, 6577, destid, mes, meslen);//添加消息至队列
 
-		log("message in: ");
-		log("tag: ", tag);
-		log("destid: ", destid);
-		log("message: ", mes);
+	log("message in: ");
+	log("tag: ", tag);
+	log("destid: ", destid);
+	log("message: ", mes);
 
-		break;
-	}
 	return 0;
 }
 

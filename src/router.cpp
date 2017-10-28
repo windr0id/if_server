@@ -10,20 +10,25 @@
  * 路由
  */
 void r_route(int client_fd, int t, int num, char* (pdata)[], int datalen[]){
-	if(t < 10){
-		//nothing to do
-	}else if(t <20){
+	switch(t){
+	case 10:
 		//用户注册
-		sign_up(client_fd, t, num, pdata, datalen);
-	}else if(t <30){
+		sign_up(client_fd, num, pdata, datalen);
+		break;
+	case 10:
 		//用户登录&&退出
-	}else if(t <40){
+		sign_login(client_fd, num, pdata, datalen);
+		break;
+	case 30:
 		//消息
-		mes_in(client_fd, t, num, pdata, datalen);
-	}else if(t <50){
+		mes_in(client_fd, num, pdata, datalen);
+		break;
+	case 10:
 		//查询在线用户
-	}else if(t <60){
+		break;
+	case 10:
 		//文件传输
+		break;
 	}
 }
 

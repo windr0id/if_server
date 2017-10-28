@@ -26,6 +26,7 @@ int db_query(string sql){
 		log("db=>query error: ", c_sql, mysql_errno(conn));
 		return -1;
 	}
+	log(c_sql);
 	return 0;
 }
 
@@ -40,7 +41,6 @@ int db_insert_user(char* username, char* password){
 	mysql_free_result(res);
 	stringstream ss;
 	ss<<"INSERT INTO user(`id`,`username`,`password`)VALUES("<<nid<<",'"<<username<<"','"<<password<<"')";
-	log(ss.str().c_str());
 	if(db_query(ss.str()) != 0){
 		return -1;
 	}else{
@@ -48,6 +48,29 @@ int db_insert_user(char* username, char* password){
 	}
 }
 
+int db_check_user(int id, char* password){
+	stringstream ss;
+	ss<<"SELECT count(*) FROM user where id = "<<id<<" and password = '"<<password<<"'";
+	if(db_query(ss.str()) != 0){
+		return -1;
+	}else{
+		return 0;
+	}
+}
 
+int db_get_username(int id, char* username){
+	stringstream ss;
+	ss<<"SELECT username FROM user where id = "<<id;
+	MYSQL_RES *res;
+	MYSQL_ROW row;
+	if(db_query(ss.str()) != 0){
+		return -1;
+	}
+	res = mysql_use_result(conn);
+	row = mysql_fetch_row(res);
+	memcpy(username, row[0], strlen(row[0])+1);
+	mysql_free_result(res);
+	return 0;
+}
 
 
