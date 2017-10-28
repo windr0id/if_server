@@ -14,6 +14,6 @@
 #include "log.h"
 
 int db_init();
-int db_sign_up(char* username, char* password);
+int db_insert_user(char* username, char* password);
 
 #endif /* DB_H_ */

@@ -64,7 +64,7 @@ int sign_up(int client_fd, int t, int num, char* (pdata)[], int datalen[]){
 		}
 		bool success = false;
 		int id;
-		if((id = db_sign_up(username, password)) >= 0){
+		if((id = db_insert_user(username, password)) >= 0){
 			success = true;
 		}
 		sign_up_back(client_fd, success, id);

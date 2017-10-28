@@ -39,6 +39,7 @@ int r_recv(int client_fd, char* buff){
 				return 0;
 			}
 			log("r_recv: socket error.", errno);
+			pthread_exit(0);
 		}else{
 			return n;
 		}
@@ -51,8 +52,6 @@ int r_send(int client_fd, char* buff, int len){
     if(send(client_fd, buff, len, 0)<0){
         log("router=>r_send: send error.");
         return -1;
-    }else{
-        log("router=>r_send: send success.");
     }
     return 0;
 }
