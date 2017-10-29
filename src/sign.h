@@ -11,6 +11,7 @@
 #include <string.h>
 #include "tools.h"
 #include "router.h"
+#include "online.h"
 
 int sign_login(int client_fd, int num, char* (pdata)[], int datalen[]);
 int sign_up(int client_fd, int num, char* (pdata)[], int datalen[]);

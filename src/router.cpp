@@ -25,6 +25,7 @@ void r_route(int client_fd, int t, int num, char* (pdata)[], int datalen[]){
 		break;
 	case 40:
 		//查询在线用户
+		onl_query(client_fd);
 		break;
 	case 50:
 		//文件传输
@@ -80,7 +81,7 @@ void r_thread(int* arg){
 			int datalen[MAX_DATA_NUM];
 			t_parse(buff, &title, &num, pdata, datalen);
 			r_route(client_fd, title, num, pdata, datalen);
-
+			/*
 			log("----------------");
 			log(title);
 			log(num);
@@ -89,6 +90,7 @@ void r_thread(int* arg){
 			log(datalen[1]);
 			log(pdata[1]);
 			log("-----router----");
+			*/
     	}
     }
 }

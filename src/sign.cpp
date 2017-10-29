@@ -42,14 +42,15 @@ int sign_login(int client_fd, int num, char* (pdata)[], int datalen[]){
 	if(password[plen]!='\0'){
 		log("sign_login error: \0 missed.");
 	}
+	char username[21];
 	if(db_check_user(id, password) != 0){
 		log("sign_login error: password incorrect.");
 	}else{
 		success = true;
-	}
-	char username[20];
-	if(db_get_username(id, username) != 0){
-		log("sign_login=>db_get_username error.");
+		onl_add(id);//向在线队列添加该用户ID
+		if(db_get_username(id, username) != 0){
+			log("sign_login=>db_get_username error.");
+		}
 	}
 	sign_login_back(client_fd, success, username);
 	if(success){

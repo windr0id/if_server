@@ -4,7 +4,8 @@
 
 int main(){
 	db_init();//初始化数据库连接
-	mes_init();//初始化消息
+	mes_init();//初始化消息队列
+	onl_init();//初始化在线用户队列
 	socket_init();//初始化socket
 	socket_wait();
 

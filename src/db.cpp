@@ -69,7 +69,7 @@ int db_check_user(int id, char* password){
 	}
 }
 
-int db_get_username(int id, char* username){
+int db_get_username(int id, char* out_username){
 	stringstream ss;
 	ss<<"SELECT username FROM user where id = "<<id;
 	MYSQL_RES *res;
@@ -79,7 +79,7 @@ int db_get_username(int id, char* username){
 	}
 	res = mysql_use_result(conn);
 	row = mysql_fetch_row(res);
-	memcpy(username, row[0], strlen(row[0])+1);
+	memcpy(out_username, row[0], strlen(row[0])+1);
 	mysql_free_result(res);
 	return 0;
 }

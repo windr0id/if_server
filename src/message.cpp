@@ -83,7 +83,6 @@ int mes_back(int client_fd, int tag, int sourceid, char* mes, int meslen){
 	IntToByteArray(sourceid, c_sourceid);
 	char* (pdata)[num] = {c_tag, c_sourceid, mes};
 	int len = setData(buff, num, pdata, datalen);
-
 	r_send(client_fd, buff, len);
 	return 0;
 }
