@@ -56,7 +56,7 @@ int r_recv(int client_fd, char* buff){
  */
 int r_send(int client_fd, char* buff, int len){
     if(send(client_fd, buff, len, 0)<0){
-        log("router=>r_send: send error.");
+        log("router=>r_send: send error. client_fd: ", client_fd);
         return -1;
     }
     return 0;
@@ -74,7 +74,7 @@ void r_thread(int* arg){
     	int len = r_recv(client_fd, buff);
     	if(len == 0){
     		//没有收到新报文,检查是否有需要发送的消息
-    		mes_out(client_fd, 976);
+    		mes_out(client_fd, sign_getid(client_fd));
     	}else{
     		int title, num;
 			char* (pdata)[MAX_DATA_NUM];

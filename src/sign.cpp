@@ -4,9 +4,54 @@
  *  Created on: Oct 26, 2017
  *      Author: windroid
  */
-
 #include "sign.h"
 
+using namespace std;
+
+//client_fd to id互斥锁
+pthread_mutex_t sig_mutex;
+
+map <int, int> cids;
+
+int sign_init(){
+	pthread_mutex_init(&sig_mutex, NULL);
+	return 0;
+}
+
+int sign_add(int client_fd, int id){
+	pthread_mutex_lock(&sig_mutex);
+	cids.insert(pair<int, int>(client_fd, id));
+	log("sign_add cids.size:", cids.size());
+	pthread_mutex_unlock(&sig_mutex);
+	return 0;
+}
+
+int sign_getid(int client_fd){
+	pthread_mutex_lock(&sig_mutex);
+	map<int, int>::iterator it;
+	it = cids.find(client_fd);
+	if(it != cids.end()){
+		int ret = it->second;
+		pthread_mutex_unlock(&sig_mutex);
+		return ret;
+	}else{
+		//log("sign_getid error. cids size:", cids.size());
+		pthread_mutex_unlock(&sig_mutex);
+		return -1;
+	}
+}
+
+int sign_del(int client_fd){
+	pthread_mutex_lock(&sig_mutex);
+	if(cids.erase(client_fd) == 1){
+		pthread_mutex_unlock(&sig_mutex);
+		return 0;
+	}else{
+		pthread_mutex_unlock(&sig_mutex);
+		log("sign_del error.");
+		return -1;
+	}
+}
 
 int sign_login_back(int client_fd, bool success, char* username){
 	//s->c	title:21	num:1	data0:<char>username[max:20]
@@ -46,8 +91,10 @@ int sign_login(int client_fd, int num, char* (pdata)[], int datalen[]){
 	if(db_check_user(id, password) != 0){
 		log("sign_login error: password incorrect.");
 	}else{
+		//登录成功
 		success = true;
 		onl_add(id);//向在线队列添加该用户ID
+		sign_add(client_fd, id);//向鉴权队列添加用户ID
 		if(db_get_username(id, username) != 0){
 			log("sign_login=>db_get_username error.");
 		}

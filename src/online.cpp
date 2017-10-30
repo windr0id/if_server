@@ -16,8 +16,6 @@ set <int> onluser;
 
 int onl_init(){
 	onl_add(10000);
-	onl_add(10001);
-	onl_add(10003);
 	pthread_mutex_init(&onl_mutex, NULL);
 	return 0;
 }
