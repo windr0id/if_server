@@ -10,6 +10,12 @@
 
 #include <iostream>
 #include <string.h>
+#include <sys/select.h>
+#include <sys/time.h>
+#include <sys/types.h>
+#include <unistd.h>
+
+int threadDelay(const int sec, const int usec);
 
 void IntToByteArray(int n, char* b);
 int ByteArrayToInt(char* b);

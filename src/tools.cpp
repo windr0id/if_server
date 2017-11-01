@@ -6,6 +6,16 @@
  */
 #include "tools.h"
 
+int threadDelay(const int sec, const int usec){
+	timeval timeOut;
+	timeOut.tv_sec = sec;
+	timeOut.tv_usec = usec;
+	if (0 != select(0, NULL, NULL, NULL, &timeOut))
+	{
+		return -1;
+	}
+	return 0;
+}
 /**
  * 字节流数据相关
  */

@@ -41,6 +41,19 @@ int sign_getid(int client_fd){
 	}
 }
 
+int sign_getfd(int id){
+	pthread_mutex_lock(&sig_mutex);
+	map<int, int>::iterator it;
+	for(it = cids.begin(); it != cids.end(); it++){
+		if(it->second == id){
+			pthread_mutex_unlock(&sig_mutex);
+			return it->first;
+		}
+	}
+	pthread_mutex_unlock(&sig_mutex);
+	return -1;
+}
+
 int sign_del(int client_fd){
 	pthread_mutex_lock(&sig_mutex);
 	if(cids.erase(client_fd) == 1){

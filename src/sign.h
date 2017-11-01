@@ -18,6 +18,7 @@
 int sign_init();
 int sign_add(int client_fd, int id);
 int sign_getid(int client_fd);
+int sign_getfd(int id);
 int sign_del(int client_fd);
 
 int sign_login(int client_fd, int num, char* (pdata)[], int datalen[]);

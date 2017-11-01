@@ -3,7 +3,6 @@
 int server_fd;
 struct sockaddr_in servaddr, clinaddr;
 
-bool accepting = true;
 
 /**
  * 初始化操作
@@ -42,8 +41,8 @@ int socket_init(){
 void socket_wait(){
 	int client_fd;
 	unsigned int len;
-    while(accepting){
-    	len = sizeof( (struct sockaddr *) &clinaddr);
+    while(true){
+    	len = sizeof((struct sockaddr *) &clinaddr);
         if((client_fd = accept(server_fd, (struct sockaddr*)&clinaddr, &len)) <0){
             log("accept socket error.", errno);
             log(server_fd);

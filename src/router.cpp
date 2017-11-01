@@ -81,17 +81,9 @@ void r_thread(int* arg){
 			int datalen[MAX_DATA_NUM];
 			t_parse(buff, &title, &num, pdata, datalen);
 			r_route(client_fd, title, num, pdata, datalen);
-			/*
-			log("----------------");
-			log(title);
-			log(num);
-			log(datalen[0]);
-			log(pdata[0]);
-			log(datalen[1]);
-			log(pdata[1]);
-			log("-----router----");
-			*/
     	}
+    	//延迟100ms
+    	threadDelay(0, 100000);
     }
 }
 
