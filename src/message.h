@@ -8,6 +8,7 @@
 #ifndef MESSAGE_H_
 #define MESSAGE_H_
 
+#include <set>
 #include <string.h>
 #include <pthread.h>
 
