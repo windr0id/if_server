@@ -62,3 +62,10 @@ void socket_wait(){
         }
     }
 }
+
+int socket_err(int fd){
+	int status;
+	socklen_t slen;
+	getsockopt(fd, SOL_SOCKET, SO_ERROR, (void *) &status, &slen);
+	return status;
+}

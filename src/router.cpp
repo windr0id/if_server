@@ -40,11 +40,19 @@ int r_recv(int client_fd, char* buff){
 	int n;
 	while(true){
 		if((n = recv(client_fd, buff, BUFF_LEN, 0)) < 0){
-			if(errno == EAGAIN){
-				//未收到报文
+			switch(errno){
+			case EAGAIN:
+				//稍后重试
+				//log("EAGAIN");
 				return 0;
 			}
 			log("r_recv: socket error.", errno);
+			pthread_exit(0);
+		}else if(n == 0){
+			//连接断开
+			log("client_fd close: ", client_fd);
+			onl_del(sign_getid(client_fd));//从在线队列删除
+			sign_del(client_fd);//从鉴权队列删除
 			pthread_exit(0);
 		}else{
 			return n;

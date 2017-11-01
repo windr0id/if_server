@@ -15,6 +15,7 @@
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
+#include <netinet/tcp.h>
 #include <string.h>
 #include <errno.h>
 #include "log.h"
@@ -24,6 +25,6 @@
 
 int socket_init();
 void socket_wait();
-
+int socket_err(int fd);
 
 #endif /* MSOCKET_H_ */

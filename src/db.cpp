@@ -26,7 +26,7 @@ int db_query(string sql){
 		log("db=>query error: ", c_sql, mysql_errno(conn));
 		return -1;
 	}
-	log(c_sql);
+	//log(c_sql);
 	return 0;
 }
 

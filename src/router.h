@@ -22,6 +22,7 @@
 #include "message.h"
 #include "sign.h"
 #include "tools.h"
+#include "msocket.h"
 
 #define BUFF_LEN	4096
 #define MAX_DATA_NUM 24
