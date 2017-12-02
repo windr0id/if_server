@@ -1,8 +1,7 @@
-#include "msocket.h"
+#include "head.h"
 
 int server_fd;
 struct sockaddr_in servaddr, clinaddr;
-
 
 /**
  * 初始化操作

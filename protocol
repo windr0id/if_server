@@ -8,25 +8,25 @@
 用户注册:
 	c->s	title:10	num:2	data0:<char>username[max:20]	data1:<char>password[max:20,min:6]
 	//发送注册请求
-	s->c	title:11	num:1	data0:<char>userid[8]
+	s->c	title:11	num:1	data0:<int>userid
 	//注册成功，返回用户id
 	s->c	title:19	num:0
 	//注册失败
 
 用户登录:
-	c->s	title:20	num:2	data0:<char>userid[8]	data1:<char>password[max:20,min:6]
+	c->s	title:20	num:2	data0:<int>userid	data1:<char>password[max:20,min:6]
 	//发送登录请求
-	s->c	title:21	num:0
+	s->c	title:21	num:1	data0:<char>username[max:20]
 	//登录成功
-	s->c	title:29	num:1	data0:<int>info
-	//登录失败，返回失败信息 1-用户不存在 2-密码错误 3-服务器故障
+	s->c	title:29	num:0
+	//登录失败
 
 用户退出:
 	c->s	title:28	num:0
 	//发送退出请求
 	
 消息-发送方:
-	c->s	title:30	num:3	data0:<int>tag	data1:<char>desid[8]	data2:<char>message[max:4000]
+	c->s	title:30	num:3	data0:<int>tag	data1:<int>destid	data2:<char>message[max:4000]
 	//向desid发送标识码为tag的消息
 	s->c	title:31	num:1	data0:<int>tag
 	//标识码为tag的消息发送成功
@@ -34,7 +34,7 @@
 	//标识码为tag的消息发送失败
 	
 消息-接收方:
-	s->c	title:33	num:3	data0:<int>-tag	data1:<char>sourceid[8]	data2:<char>message[max:4000]
+	s->c	title:33	num:3	data0:<int>-tag	data1:<int>sourceid	data2:<char>message[max:4000]
 	//分发标识为-tag的消息
 	c->s	title:34	num:1	data0:<int>-tag
 	//标识为-tag的消息接收成功
@@ -42,30 +42,25 @@
 查询在线用户:
 	c->s	title:40	num:0
 	//发送查询请求
-	s->c	title:41	num:2x	data0:<char>userid0[8]	data1:<char>username0[] ...
+	s->c	title:41	num:2x	data0:<int>userid0	data1:<char>username0[] ...
 	//返回在线用户的id和用户名
 	s->c	title:49	num:0
 	//查询失败
 
 文件传输-发送方:
-	c->s	title:50	num:4	data0:<int>tag	data1:<char>destid[8]	data2:<char>filename[max:256]	data3:<int>filesize
-	//发起传输请求
-	s->c	title:51	num:2	data0:<int>tag	data1:<int>ret
+	c->s	title:50	num:4	data0:<int>tag	data1:<int>destid	data2:<int>filesize	data3:<char>filename[max:256]
+	//发起传输请求	
+	s->c	title:51	num:4	data0:<int>tag	data1:<int>ret	data2:<char>IP[max:16]	data3:<int>port
 	//标识码为tag的文件传输请求获得 同意ret=0/拒绝ret=1
-	c->s	title:52	num:3	data0:<int>tag	data1:<int>sliceno	data2:<bytes>data[max:4k]
-	//以4k分片发送标识码为tag的文件
-	s->c	title:53	num:2	data0:<int>tag	data1:<int>sliceno
-	//sliceno片接收成功
+	c->c	title:52	num:3	data0:<int>tag	data1:<int>sliceno	data2:<bytes>data[max:2K]
+	//以2k分片发送标识码为tag的文件
 
 文件传输-接收方:
-	s->c	title:55	num:4	data0:<int>-tag	data1:<char>sourceid[8]	data2:<char>filename[max:256]	data3:<int>filesize
+	s->c	title:55	num:4	data0:<int>-tag	data1:<int>sourceid	data2:<int>filesize	data3:<char>filename[max:256]
 	//分发传输请求
-	c->s	title:56	num:2	data0:<int>-tag	data1:<int>ret
+	c->s	title:56	num:4	data0:<int>-tag	data1:<int>ret	data2:<char>IP[max:16]	data3:<int>port
 	//标识码为-tag的传输请求 同意ret=0/拒绝ret=1
-	s->c	title:57	num:3	data0:<int>-tag	data1<int>sliceno	data2:<bytes>data[max:4k]
-	//分发sliceno片
-	c->s	title:58	num:2	data0:<int>-tag	data1:<int>sliceno
+	c->c	title:53	num:2	data0:<int>-tag	data1:<int>sliceno
 	//sliceno片接收成功
-
 
 

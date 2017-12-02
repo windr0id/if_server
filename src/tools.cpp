@@ -4,7 +4,7 @@
  *  Created on: Oct 25, 2017
  *      Author: windroid
  */
-#include "tools.h"
+#include "head.h"
 
 int threadDelay(const int sec, const int usec){
 	timeval timeOut;

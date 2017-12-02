@@ -4,7 +4,7 @@
  *  Created on: Oct 26, 2017
  *      Author: windroid
  */
-#include "sign.h"
+#include "head.h"
 
 using namespace std;
 
@@ -76,8 +76,8 @@ int sign_login_back(int client_fd, bool success, char* username){
 		int title = 21;
 		int num = 1;
 		setHead(buff, title, num);
-		char* (pdata)[num] = {username};
-		int datalen[num] = {strlen(username)+1};
+		char* (pdata)[MAX_DATA_NUM] = {username};
+		int datalen[MAX_DATA_NUM] = {strlen(username)+1};
 		int len = setData(buff, num, pdata, datalen);
 		r_send(client_fd, buff, len);
 	}else{
@@ -132,8 +132,8 @@ int sign_up_back(int client_fd, bool success, int id){
 		setHead(buff, title, num);
 		char c_id[4];
 		IntToByteArray(id, c_id);
-		char* (pdata)[num] = {c_id};
-		int datalen[num] = {4};
+		char* (pdata)[MAX_DATA_NUM] = {c_id};
+		int datalen[MAX_DATA_NUM] = {4};
 		int len = setData(buff, num, pdata, datalen);
 		r_send(client_fd, buff, len);
 	}else{

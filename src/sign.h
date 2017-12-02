@@ -8,12 +8,6 @@
 #ifndef SIGN_H_
 #define SIGN_H_
 
-#include <map>
-#include <pthread.h>
-#include <string.h>
-#include "tools.h"
-#include "router.h"
-#include "online.h"
 
 int sign_init();
 int sign_add(int client_fd, int id);

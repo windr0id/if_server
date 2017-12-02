@@ -1,6 +1,4 @@
-#include "msocket.h"
-
-#define PORT 9762
+#include "head.h"
 
 int main(){
 	db_init();//初始化数据库连接

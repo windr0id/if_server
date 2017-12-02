@@ -8,6 +8,7 @@
 #ifndef LOG_H_
 #define	LOG_H_
 
+#include "head.h"
 
 void log(int);
 void log(const char*);

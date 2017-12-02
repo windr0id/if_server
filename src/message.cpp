@@ -4,7 +4,7 @@
  *  Created on: Oct 25, 2017
  *      Author: windroid
  */
-#include "message.h"
+#include "head.h"
 
 using namespace std;
 
@@ -39,7 +39,7 @@ int addMes(int tag, int sourceid, int destid, char* message, int meslen){
 	messet.insert(m);
 	log("addMes:", message);
 	pthread_mutex_unlock(&mes_mutex);
-	return -1;
+	return 0;
 }
 
 /**
@@ -76,14 +76,14 @@ int mes_back(int client_fd, int tag, int sourceid, const char* mes, int meslen){
 	int num = 3;
 	setHead(buff, title, num);
 
-	int datalen[num] = {4, 4, meslen};
+	int datalen[MAX_DATA_NUM] = {4, 4, meslen};
 	char c_tag[4];
 	IntToByteArray(-tag, c_tag);
 	char c_sourceid[4];
 	IntToByteArray(sourceid, c_sourceid);
 	char message[meslen];
 	memcpy(message, mes, meslen);
-	char* (pdata)[num] = {c_tag, c_sourceid, message};
+	char* (pdata)[MAX_DATA_NUM] = {c_tag, c_sourceid, message};
 	int len = setData(buff, num, pdata, datalen);
 	log("--------------------");
 	log("tag: ", tag);
@@ -95,7 +95,8 @@ int mes_back(int client_fd, int tag, int sourceid, const char* mes, int meslen){
 	return 0;
 }
 
-int mes_out(int client_fd, int id){
+int mes_out(int client_fd){
+	int id = sign_getid(client_fd);
 	pthread_mutex_lock(&mes_mutex);
 	set<mes_struct>::iterator it = messet.begin();
 	for(; it != messet.end(); it++){

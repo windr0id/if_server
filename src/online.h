@@ -8,13 +8,7 @@
 #ifndef ONLINE_H_
 #define ONLINE_H_
 
-#include <pthread.h>
-#include <set>
-#include "tools.h"
-#include "db.h"
-#include "router.h"
-
-#define BUFF_LEN 4096
+#include "head.h"
 
 int onl_init();
 bool isOnline(int id);

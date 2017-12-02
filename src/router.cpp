@@ -4,7 +4,7 @@
  *  Created on: Oct 23, 2017
  *      Author: windroid
  */
-#include "router.h"
+#include "head.h"
 
 /**
  * 路由
@@ -28,7 +28,8 @@ void r_route(int client_fd, int t, int num, char* (pdata)[], int datalen[]){
 		onl_query(client_fd);
 		break;
 	case 50:
-		//文件传输
+		//传输请求
+		p2p_in(client_fd, num, pdata, datalen);
 		break;
 	}
 }
@@ -82,7 +83,8 @@ void r_thread(int* arg){
     	int len = r_recv(client_fd, buff);
     	if(len == 0){
     		//没有收到新报文,检查是否有需要发送的消息
-    		mes_out(client_fd, sign_getid(client_fd));
+    		mes_out(client_fd);
+    		p2p_out(client_fd);
     	}else{
     		int title, num;
 			char* (pdata)[MAX_DATA_NUM];

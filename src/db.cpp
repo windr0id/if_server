@@ -5,7 +5,7 @@
  *      Author: windroid
  */
 
-#include "db.h"
+#include "head.h"
 
 using namespace std;
 
@@ -20,8 +20,7 @@ int db_init(){
 	return 0;
 }
 
-int db_query(string sql){
-	const char* c_sql = sql.c_str();
+int db_query(const char *c_sql){
 	if (mysql_query(conn, c_sql) != 0) {
 		log("db=>query error: ", c_sql, mysql_errno(conn));
 		return -1;
@@ -33,7 +32,7 @@ int db_query(string sql){
 int db_insert_user(char* username, char* password){
 	MYSQL_RES *res;
 	MYSQL_ROW row;
-	string sql = "SELECT max(id) FROM user";
+	char sql[255] = "SELECT max(id) FROM user";
 	db_query(sql);
 	res = mysql_use_result(conn);
 	row = mysql_fetch_row(res);
@@ -41,7 +40,7 @@ int db_insert_user(char* username, char* password){
 	mysql_free_result(res);
 	stringstream ss;
 	ss<<"INSERT INTO user(`id`,`username`,`password`)VALUES("<<nid<<",'"<<username<<"','"<<password<<"')";
-	if(db_query(ss.str()) != 0){
+	if(db_query(ss.str().c_str()) != 0){
 		return -1;
 	}else{
 		return nid;
@@ -53,7 +52,7 @@ int db_check_user(int id, char* password){
 	ss<<"SELECT count(*) FROM user where id = "<<id<<" and password = '"<<password<<"'";
 	MYSQL_RES *res;
 	MYSQL_ROW row;
-	if(db_query(ss.str()) != 0){
+	if(db_query(ss.str().c_str()) != 0){
 		return -1;
 	}else{
 		res = mysql_use_result(conn);
@@ -74,7 +73,7 @@ int db_get_username(int id, char* out_username){
 	ss<<"SELECT username FROM user where id = "<<id;
 	MYSQL_RES *res;
 	MYSQL_ROW row;
-	if(db_query(ss.str()) != 0){
+	if(db_query(ss.str().c_str()) != 0){
 		return -1;
 	}
 	res = mysql_use_result(conn);
